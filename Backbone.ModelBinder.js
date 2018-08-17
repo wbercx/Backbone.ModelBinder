@@ -243,8 +243,8 @@
             var _this = this;
 
             _.each(this._options['changeTriggers'], function (event, selector) {
-                $(_this._rootEl).on(event, selector, function () {
-                    _this._onElChanged();
+                $(_this._rootEl).on(event, selector, function (jqEvent) {
+                    _this._onElChanged(jqEvent);
                 });
             });
 
@@ -258,8 +258,8 @@
 
             if(this._options && this._options['changeTriggers']){
                 _.each(_this._options['changeTriggers'], function (event, selector) {
-                    $(_this._rootEl).off(event, selector, function () {
-                        _this._onElChanged();
+                    $(_this._rootEl).off(event, selector, function (jqEvent) {
+                        _this._onElChanged(jqEvent);
                     });
                 });
             }
