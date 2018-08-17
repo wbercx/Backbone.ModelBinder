@@ -240,9 +240,13 @@
         },
 
         _bindViewToModel: function () {
+            var _this = this;
+
             _.each(this._options['changeTriggers'], function (event, selector) {
-                $(this._rootEl).on(event, selector, this._onElChanged);
-            }.bind(this));
+                $(_this._rootEl).on(event, selector, function () {
+                    _this._onElChanged();
+                });
+            });
 
             if(this._options['initialCopyDirection'] === Backbone.ModelBinder.Constants.ViewToModel){
                 this.copyViewValuesToModel();
@@ -250,10 +254,14 @@
         },
 
         _unbindViewToModel: function () {
+            var _this = this;
+
             if(this._options && this._options['changeTriggers']){
-                _.each(this._options['changeTriggers'], function (event, selector) {
-                    $(this._rootEl).off(event, selector, this._onElChanged);
-                }.bind(this));
+                _.each(_this._options['changeTriggers'], function (event, selector) {
+                    $(_this._rootEl).off(event, selector, function () {
+                        _this._onElChanged();
+                    });
+                });
             }
         },
 
