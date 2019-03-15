@@ -38,7 +38,7 @@
     Backbone.ModelBinder.Constants.ModelToView = 'ModelToView';
     Backbone.ModelBinder.Constants.ViewToModel = 'ViewToModel';
 
-    _.extend(Backbone.ModelBinder.prototype, {
+    _.extend(Backbone.ModelBinder.prototype, Backbone.Events, {
 
         bind:function (model, rootEl, attributeBindings, options) {
             this.unbind();
@@ -183,7 +183,7 @@
         },
 
         _bindModelToView: function () {
-            this._model.on('change', this._onModelChange, this);
+            this.listenTo(this._model, 'change', this._onModelChange.bind(this));
 
             if(this._options['initialCopyDirection'] === Backbone.ModelBinder.Constants.ModelToView){
                 this.copyModelAttributesToView();
@@ -234,7 +234,7 @@
 
         _unbindModelToView: function(){
             if(this._model){
-                this._model.off('change', this._onModelChange);
+                this.stopListening(this._model);
                 this._model = undefined;
             }
         },
